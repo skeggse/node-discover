@@ -1,13 +1,24 @@
 {
-	"name"		: "node-discover",
-	"description"	: "Automatically discover your nodejs instances with built-in support for automatic single master and capability advertising.",
-	"version"	: "0.0.9",
-	"author"	: "Dan VerWeire",
-	"homepage"	: "http://github.com/wankdanker/node-discover",
-	"repository"	: "git://github.com/wankdanker/node-discover.git",
-	"main"		: "discover",
-	"dependencies"	: {
-        "eventemitter2": "0.4.x"
-	},
-	"engines"	: { "node": ">=0.4.1 <0.5.0 || >=0.6.9" }
+  "name": "node-discover",
+  "description": "Node discovery service with built-in support for automatic single master and capability advertising.",
+  "version": "0.1.0",
+  "author": "Dan VerWeire",
+  "contributors": [
+    {
+      "name": "Eli Skeggs",
+      "email": "skeggse@gmail.com"
+    }
+  ],
+  "homepage": "http://github.com/wankdanker/node-discover",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/wankdanker/node-discover.git"
+  },
+  "main": "./index.js",
+  "dependencies": {
+    "underscore": "~1.4.4"
+  },
+  "engines": {
+    "node": ">=0.4.1 <0.5.0 || >=0.6.9"
+  }
 }
