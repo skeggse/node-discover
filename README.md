@@ -30,14 +30,14 @@ var Discover = require('node-discover');
 
 var d = new Discover();
 
-d.on("promotion", function () {
+d.on("promotion", function() {
 	/**
 	 * Launch things this master process should do.
-	 * 
+	 *
 	 * For example:
 	 *	- Monitior your redis servers and handle failover by issuing slaveof
 	 *    commands then notify other node instances to use the new master
-	 *	- Make sure there are a certain number of nodes in the cluster and 
+	 *	- Make sure there are a certain number of nodes in the cluster and
 	 *    launch new ones if there are not enough
 	 *	- whatever
 	 */
@@ -62,7 +62,7 @@ d.on("removed", function (obj) {
 d.on("master", function (obj) {
 	/**
 	 * A new master process has been selected
-	 * 
+	 *
 	 * Things we might want to do:
 	 * 	- Review what the new master is advertising use its services
 	 *	- Kill all connections to the old master
@@ -161,7 +161,7 @@ if (!success) {
 	// could not join that channel; probably because it is reserved
 }
 ```
-	
+
 #### Reserved channels
 
 * promotion
@@ -222,7 +222,7 @@ d.advertise("i love nodejs");
 
 d.advertise({something: "something"});
 ```
-		
+
 ### start()
 
 Start broadcasting hello packets and checking for missing nodes (start is called automatically in the constructor)
@@ -245,7 +245,7 @@ var d = new Discover();
 d.stop();
 ```
 
-### eachNode(fn) 
+### eachNode(fn)
 
 For each node execute fn, passing fn the node fn(node)
 
@@ -298,7 +298,7 @@ Node Object
 -----------
 
 ```js
-{ 
+{
 	isMaster: true,
 	isMasterEligible: true,
 	advertisement: null,
