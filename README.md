@@ -92,7 +92,7 @@ Constructor
 ```js
 new Discover({
 	helloInterval: 1000, // How often to broadcast a hello packet in milliseconds
-	checkInterval: 2000, //How often to to check for missing nodes in milliseconds
+	checkInterval: 2000, // How often to to check for missing nodes in milliseconds
 	nodeTimeout: 2000, // Consider a node dead if not seen in this many milliseconds
 	masterTimeout: 2000, // Consider a master node dead if not seen in this many milliseconds
 	address: '0.0.0.0', // Address to bind to
@@ -102,7 +102,7 @@ new Discover({
 	mulitcastTTL: 1, // Multicast TTL for when using multicast
 	key: null, // Encryption key if your broadcast packets should be encrypted (null means no encryption)
 	mastersRequired: 1, // The count of master processes that should always be available
-	weight: Math.random() //A number used to determine the preference for a specific process to become master. Higher numbers win.
+	weight: Math.random() // A number used to determine the preference for a specific process to become master. Higher numbers win.
 });
 ```
 
@@ -313,7 +313,11 @@ Node Object
 TODO
 ====
 
-I have not tested large packets. The current version does not handle recombining split messages.
+* Large packets are not tested. The current version does not handle recombining split messages.
+* Discover assumes the broadcast address to be `255.255.255.255`.
+* Unique ID algorithm not terribly robust.
+* Local address assumed to be `127.0.0.1`.
+* Missing node check may not be sufficiently optimized.
 
 LICENSE
 =======
