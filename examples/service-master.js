@@ -21,10 +21,7 @@ var master = new Discover({
 
 master.advertise({
   type: 'service.queue',
-  config: {
-    host: '127.0.0.1',
-    port: 5672
-  }
+  config: {url: 'amqp://localhost:5672'}
 });
 
 master.on('added', function(node) {
