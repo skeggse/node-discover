@@ -80,7 +80,7 @@ Installing
 
 ### git
 
-	git clone git://github.com/wankdanker/node-discover.git
+	git clone git://github.com/skeggse/node-discover.git
 
 API
 ===
