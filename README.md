@@ -44,22 +44,22 @@ d.on("promotion", function() {
 	console.log("I was promoted to a master.");
 });
 
-d.on("demotion", function () {
+d.on("demotion", function() {
 	/**
 	 * End all master specific functions or whatever you might like.
 	 */
 	console.log("I was demoted from being a master.");
 });
 
-d.on("added", function (obj) {
+d.on("added", function(obj) {
 	console.log("A new node has been added.");
 });
 
-d.on("removed", function (obj) {
+d.on("removed", function(obj) {
 	console.log("A node has been removed.");
 });
 
-d.on("master", function (obj) {
+d.on("master", function(obj) {
 	/**
 	 * A new master process has been selected
 	 *
@@ -81,7 +81,6 @@ Installing
 ### git
 
 	git clone git://github.com/wankdanker/node-discover.git
-
 
 API
 ===
@@ -151,7 +150,7 @@ var Discover = require('node-discover');
 var d = new Discover();
 
 // pass the channel and the callback function for handling received data from that channel
-var success = d.join("config-updates", function (data) {
+var success = d.join("config-updates", function(data) {
 	if (data.redisMaster) {
 		// connect to the new redis master
 	}
@@ -253,7 +252,7 @@ For each node execute fn, passing fn the node fn(node)
 var Discover = require('node-discover');
 var d = new Discover();
 
-d.eachNode(function (node) {
+d.eachNode(function(node) {
 	if (node.advertisement === "i love nodejs") {
 		console.log("nodejs loves this node too");
 	}
