@@ -26,7 +26,7 @@ discovery.advertise({
   config: config
 });
 
-discovery.require('service.queue');
+discovery.mandate('service.queue');
 discovery.ready(function(services) {
   var rabbit = mq.createConnection(services['service.queue'].config);
   rabbit.on('ready', function() {
