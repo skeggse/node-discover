@@ -40,7 +40,7 @@ discovery.service('service.queue', function(service) {
     });
     // for incoming data stream
     var exchange = rabbit.exchange('service-create', {autoDelete: false, type: 'fanout'}, next);
-    creation = rabbit.queue({exclusive: true}, next);
+    creation = rabbit.queue('', {exclusive: true}, next);
     // for outgoing registrations
     register = rabbit.exchange('service-register', {durable: true, confirm: true, autoDelete: false, type: 'fanout'}, done);
   });

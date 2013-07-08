@@ -10,7 +10,6 @@
  * See also: service-*.js
  */
 
-things
 // service-discovery contains utilities to improve the discovery of services
 // TODO: needs BRUTAL testing
 
