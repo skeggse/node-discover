@@ -1,5 +1,5 @@
 /**
- * This is the most basic example of using Discover.
+ * This is the most basic example of using Discovery.
  *
  * In this example all we are interested in is advertising ourself to the
  * network, and detecting when new nodes enter or leave the network. The master
@@ -9,9 +9,9 @@
  * See also: basic.js
  */
 
-var Discover = require('../..');
+var Discovery = require('../..');
 
-var d = new Discover();
+var d = new Discovery();
 
 d.advertise({
   http: "80",

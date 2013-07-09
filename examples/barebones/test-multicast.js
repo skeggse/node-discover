@@ -1,6 +1,6 @@
-var Discover = require('../..');
+var Discovery = require('../..');
 
-var c = new Discover({
+var c = new Discovery({
   multicast: '224.0.2.1',
   multicastTTL: 1
 });

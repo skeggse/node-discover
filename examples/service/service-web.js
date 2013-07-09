@@ -1,11 +1,11 @@
 /**
- * This is a fairly real-world usage of Discover.
+ * This is a fairly real-world usage of Discovery.
  *
  * In this example we setup three interconnected services, which will
  * communicate via RabbitMQ, and run the initial service discovery through
- * Discover. The master, in this case, is a service dedicated to the well-being
+ * Discovery. The master, in this case, is a service dedicated to the well-being
  * of the message queue, and it along holds the keys to the queue, which the
- * service distributes via Discover.
+ * service distributes via Discovery.
  *
  * See also: service-*.js
  */

@@ -1,6 +1,6 @@
-var Discover = require('../..');
+var Discovery = require('../..');
 
-var c = new Discover();
+var c = new Discovery();
 
 c.on("promotion", function() {
   console.log("I was promoted.");

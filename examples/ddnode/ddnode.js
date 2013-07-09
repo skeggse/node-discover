@@ -1,4 +1,4 @@
-var Discover = require('../..');
+var Discovery = require('../..');
 var portfinder = require('portfinder');
 var dnode = require('dnode');
 
@@ -32,7 +32,7 @@ var ddnode = module.exports = function(options) {
       return console.log(err);
     }
 
-    var d = new Discover({mastersRequired: 0});
+    var d = new Discovery({mastersRequired: 0});
 
     d.advertise({
       dnode: {port: port}

@@ -1,11 +1,11 @@
 /**
- * This is a fairly real-world usage of Discover.
+ * This is a fairly real-world usage of Discovery.
  *
  * In this example we setup three interconnected services, which will
  * communicate via RabbitMQ, and run the initial service discovery through
- * Discover. The master, in this case, is a service dedicated to the well-being
+ * Discovery. The master, in this case, is a service dedicated to the well-being
  * of the message queue, and it along holds the keys to the queue, which the
- * service distributes via Discover.
+ * service distributes via Discovery.
  *
  * The queue service monitors the message queues and advertises them.
  * The data service monitors the databases and advertises them.
@@ -13,9 +13,9 @@
  * See also: service-*.js
  */
 
-var Discover = require('../..');
+var Discovery = require('../..');
 
-var master = new Discover({
+var master = new Discovery({
   weight: 2 // guarantees master status
 });
 
@@ -35,7 +35,7 @@ setTimeout(function() {
   var databases = [];
 
   var database = function(config) {
-    var db = new Discover();
+    var db = new Discovery();
     db.advertise(config);
     databases.push(db);
   };

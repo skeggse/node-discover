@@ -1,5 +1,5 @@
-node-discover
-=============
+node-discovery
+==============
 
 Automatic and decentralized discovery and monitoring of nodejs instances with built in support for a variable number of master processes, service advertising and channel messaging.
 
@@ -22,12 +22,12 @@ This module uses broadcast and multicast features from node's dgram module. Addi
 Example
 =======
 
-Be sure to look in the examples folder, especially at the [distributed event emitter](https://github.com/skeggse/node-discover/blob/master/examples/deventemitter.js)
+Be sure to look in the examples folder, especially at the [distributed event emitter](https://github.com/skeggse/node-discovery/blob/master/examples/deventemitter.js)
 
 ```js
-var Discover = require('node-discover');
+var Discovery = require('node-discovery');
 
-var d = new Discover();
+var d = new Discovery();
 
 d.on("promotion", function() {
   /**
@@ -75,11 +75,11 @@ Installing
 
 ### npm
 
-  npm install node-discover
+  npm install node-discovery
 
 ### git
 
-  git clone git://github.com/skeggse/node-discover.git
+  git clone git://github.com/skeggse/node-discovery.git
 
 API
 ===
@@ -88,13 +88,13 @@ Constructor
 -----------
 
 ```js
-new Discover({
+new Discovery({
   helloInterval: 1000, // How often to broadcast a hello packet in milliseconds
   checkInterval: 2000, // How often to to check for missing nodes in milliseconds
   nodeTimeout: 2000, // Consider a node dead if not seen in this many milliseconds
   masterTimeout: 2000, // Consider a master node dead if not seen in this many milliseconds
   address: '0.0.0.0', // Address to bind to
-  port: 12345, // Port on which to bind and communicate with other node-discover processes
+  port: 12345, // Port on which to bind and communicate with other node-discovery processes
   broadcast: '255.255.255.255', // Broadcast address if using broadcast
   multicast: null, // Multicast address if using multicast (don't use multicast, use broadcast)
   mulitcastTTL: 1, // Multicast TTL for when using multicast
@@ -119,8 +119,8 @@ Promote the instance to master.
 This causes the old master to demote.
 
 ```js
-var Discover = require('node-discover');
-var d = new Discover();
+var Discovery = require('node-discovery');
+var d = new Discovery();
 
 d.promote();
 ```
@@ -132,8 +132,8 @@ Demote the instance from being a master. Optionally pass true to demote to speci
 This causes another node to become master
 
 ```js
-var Discover = require('node-discover');
-var d = new Discover();
+var Discovery = require('node-discovery');
+var d = new Discovery();
 
 // different usages
 d.demote(); // this node is still eligible to become a master node.
@@ -145,8 +145,8 @@ d.demote(true); // this node is no longer eligible to become a master node.
 Join a channel on which to receive messages/objects
 
 ```js
-var Discover = require('node-discover');
-var d = new Discover();
+var Discovery = require('node-discovery');
+var d = new Discovery();
 
 // pass the channel and the callback function for handling received data from that channel
 var success = d.join("config-updates", function(data) {
@@ -174,8 +174,8 @@ if (!success) {
 Leave a channel
 
 ```js
-var Discover = require('node-discover');
-var d = new Discover();
+var Discovery = require('node-discovery');
+var d = new Discovery();
 
 // pass the channel which we want to leave
 var success = d.leave("config-updates");
@@ -190,8 +190,8 @@ if (!success) {
 Send a message/object on a specific channel
 
 ```js
-var Discover = require('node-discover');
-var d = new Discover();
+var Discovery = require('node-discovery');
+var d = new Discovery();
 
 var success = d.send("config-updates", {redisMaster : "10.0.1.4"});
 
@@ -205,8 +205,8 @@ if (!succes) {
 Advertise an object or message with each hello packet; this is completely arbitrary. make this object/message whatever you applies to your application that you want your nodes to know about the other nodes.
 
 ```js
-var Discover = require('node-discover');
-var d = new Discover();
+var Discovery = require('node-discovery');
+var d = new Discovery();
 
 // any of these invocations
 d.advertise({
@@ -226,8 +226,8 @@ d.advertise({something: "something"});
 Start broadcasting hello packets and checking for missing nodes (start is called automatically in the constructor)
 
 ```js
-var Discover = require('node-discover');
-var d = new Discover();
+var Discovery = require('node-discovery');
+var d = new Discovery();
 
 d.start();
 ```
@@ -237,8 +237,8 @@ d.start();
 Stop broadcasting hello packets and checking for missing nodes
 
 ```js
-var Discover = require('node-discover');
-var d = new Discover();
+var Discovery = require('node-discovery');
+var d = new Discovery();
 
 d.stop();
 ```
@@ -297,11 +297,12 @@ TODO
 ====
 
 * Large packets are not tested. The current version does not handle recombining split messages.
-* Discover assumes the broadcast address to be `255.255.255.255`.
+* Discovery assumes the broadcast address to be `255.255.255.255`.
 * Unique ID algorithm not terribly robust.
 * Local address assumed to be `127.0.0.1`.
 * Missing node check may not be sufficiently optimized.
-* Verify that multiple discover instances can communicate within a single process.
+* Verify that multiple discovery instances can communicate within a single process.
+* Address possible security concerns with EventEmitter2 and unconstrained event names.
 
 LICENSE
 =======

@@ -1,5 +1,5 @@
 {
-  "name": "node-discover",
+  "name": "node-discovery",
   "description": "Node discovery service with built-in support for automatic single master and capability advertising.",
   "version": "0.1.0",
   "author": "Dan VerWeire",
@@ -9,10 +9,10 @@
       "email": "skeggse@gmail.com"
     }
   ],
-  "homepage": "http://github.com/wankdanker/node-discover",
+  "homepage": "http://github.com/wankdanker/node-discovery",
   "repository": {
     "type": "git",
-    "url": "git://github.com/wankdanker/node-discover.git"
+    "url": "git://github.com/wankdanker/node-discovery.git"
   },
   "main": "./index.js",
   "dependencies": {

@@ -11,12 +11,12 @@
  * ### Constructor
  *
  * new dEventEmitter({
- *  broadcastPort: port on which the Discover module should broadcast; Default: 5554
+ *  broadcastPort: port on which the Discovery module should broadcast; Default: 5554
  *  address: address to bind the dnode server; Default: '0.0.0.0'
  *  port: port to bind the dnode server; Default: 5555
  *  delimiter: EventEmitter2 delimiter; Default: '::'
  *  wildcard: EventEmitter2 use wildcards; Default: true
- *  key: Key to use for encrypting Discover hello packets; Default: "dEventEmitter"
+ *  key: Key to use for encrypting Discovery hello packets; Default: "dEventEmitter"
  * });
  *
  * ### Events
@@ -39,7 +39,7 @@
  * See other EventEmitter2 methods
  */
 
-var Discover = require('../..');
+var Discovery = require('../..');
 var dnode = require('dnode');
 var EventEmitter = require('eventemitter2').EventEmitter2;
 var _ = require('underscore');
@@ -70,8 +70,8 @@ var dEventEmitter = module.exports = function(options) {
     wildcard: options.wildcard
   });
 
-  // start the Discover module
-  var disc = new Discover({
+  // start the Discovery module
+  var disc = new Discovery({
     mastersRequired: 1,
     port: options.broadcastPort,
     key: options.key
@@ -107,7 +107,7 @@ var dEventEmitter = module.exports = function(options) {
       };
     }).listen(options.address, options.port);
 
-    // advertise that we are a dnode server using Discover
+    // advertise that we are a dnode server using Discovery
     disc.advertise({
       dnode: {
         port: options.port

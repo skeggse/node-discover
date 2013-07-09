@@ -1,5 +1,5 @@
 /**
- * This is the most basic example of using Discover.
+ * This is the most basic example of using Discovery.
  *
  * In this example all we are interested in is when new nodes are added to the
  * network or when they are removed. The master selection stuff happens behind
@@ -9,9 +9,9 @@
  * See also: basic-advert.js
  */
 
-var Discover = require('../..');
+var Discovery = require('../..');
 
-var d = new Discover();
+var d = new Discovery();
 
 d.on("added", function(obj) {
   console.log("New node added to the network.");
