@@ -301,6 +301,7 @@ TODO
 * Unique ID algorithm not terribly robust.
 * Local address assumed to be `127.0.0.1`.
 * Missing node check may not be sufficiently optimized.
+* Verify that multiple discover instances can communicate within a single process.
 
 LICENSE
 =======
