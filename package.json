@@ -1,18 +1,18 @@
 {
   "name": "node-discovery",
   "description": "Node discovery service with built-in support for automatic single master and capability advertising.",
-  "version": "0.1.0",
-  "author": "Dan VerWeire",
+  "version": "0.1.2",
+  "author": "Eli Skeggs <skeggse@gmail.com>",
   "contributors": [
     {
-      "name": "Eli Skeggs",
-      "email": "skeggse@gmail.com"
+      "name": "Dan VerWeire",
+      "email": "dverweire@gmail.com"
     }
   ],
-  "homepage": "http://github.com/wankdanker/node-discovery",
+  "homepage": "http://github.com/skeggse/node-discovery",
   "repository": {
     "type": "git",
-    "url": "git://github.com/wankdanker/node-discovery.git"
+    "url": "git://github.com/skeggse/node-discovery.git"
   },
   "main": "./index.js",
   "scripts": {

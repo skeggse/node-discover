@@ -96,14 +96,16 @@ node-discover/$ npm test
 node-discover/$ make test
 ```
 
-API
-===
+Service Discovery API
+=====================
 
 Constructor
 -----------
 
 ```js
-new Discovery({
+var ServiceDiscovery = require('node-discovery').ServiceDiscovery;
+
+var discovery = new ServiceDiscovery({
   helloInterval: 1000, // How often to broadcast a hello packet in milliseconds
   checkInterval: 2000, // How often to to check for missing nodes in milliseconds
   nodeTimeout: 2000, // Consider a node dead if not seen in this many milliseconds
@@ -119,7 +121,46 @@ new Discovery({
 });
 ```
 
-Attributes
+Properties
+----------
+
+* services
+
+Methods
+-------
+
+### advertise(info)
+
+Advertise yourself as a service. The info `object` is mostly arbitrary, but must include a `name` property indicating the name of the service.
+
+
+
+Discovery API
+=============
+
+Constructor
+-----------
+
+```js
+var Discovery = require('node-discovery');
+
+var discovery = new Discovery({
+  helloInterval: 1000, // How often to broadcast a hello packet in milliseconds
+  checkInterval: 2000, // How often to to check for missing nodes in milliseconds
+  nodeTimeout: 2000, // Consider a node dead if not seen in this many milliseconds
+  masterTimeout: 2000, // Consider a master node dead if not seen in this many milliseconds
+  address: '0.0.0.0', // Address to bind to
+  port: 12345, // Port on which to bind and communicate with other node-discovery processes
+  broadcast: '255.255.255.255', // Broadcast address if using broadcast
+  multicast: null, // Multicast address if using multicast (don't use multicast, use broadcast)
+  mulitcastTTL: 1, // Multicast TTL for when using multicast
+  key: null, // Encryption key if your broadcast packets should be encrypted (null means no encryption)
+  mastersRequired: 1, // The count of master processes that should always be available
+  weight: Math.random() // A number used to determine the preference for a specific process to become master. Higher numbers win.
+});
+```
+
+Properties
 ----------
 
 * nodes
