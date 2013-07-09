@@ -22,7 +22,7 @@ This module uses broadcast and multicast features from node's dgram module. Addi
 Example
 =======
 
-Be sure to look in the examples folder, especially at the [distributed event emitter](https://github.com/skeggse/node-discovery/blob/master/examples/deventemitter.js)
+Be sure to look in the examples folder, especially at the [distributed event emitter](https://github.com/skeggse/node-discovery/blob/master/examples/deventemitter/deventemitter.js) and [service discovery](https://github.com/skeggse/node-discovery/blob/master/examples/service/)
 
 ```js
 var Discovery = require('node-discovery');
@@ -313,11 +313,12 @@ TODO
 
 * Large packets are not tested. The current version does not handle recombining split messages.
 * Discovery assumes the broadcast address to be `255.255.255.255`.
-* Unique ID algorithm not terribly robust.
 * Local address assumed to be `127.0.0.1`.
 * Missing node check may not be sufficiently optimized.
 * Address possible security concerns with EventEmitter2 and unconstrained event names.
 * Add tests for Discovery itself.
+* Improve service discovery node removal handling.
+  * Could the service discovery automatically call setup for one at a time?
 
 LICENSE
 =======
