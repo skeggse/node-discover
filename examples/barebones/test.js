@@ -21,16 +21,14 @@ c.on("demotion", function() {
 
 c.on("added", function(obj) {
   console.log("Node added; here are all the nodes:");
-  c.eachNode(function(node) {
+  for (var i = 0; i < c.nodes.length; i++)
     console.log(node);
-  });
 });
 
 c.on("removed", function(obj) {
   console.log("Node removed; here are all the nodes:");
-  c.eachNode(function(node) {
+  for (var i = 0; i < c.nodes.length; i++)
     console.log(node);
-  });
 });
 
 c.on("master", function(obj) {
