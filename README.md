@@ -317,6 +317,7 @@ TODO
 * Local address assumed to be `127.0.0.1`.
 * Missing node check may not be sufficiently optimized.
 * Address possible security concerns with EventEmitter2 and unconstrained event names.
+* Add tests for Discovery itself.
 
 LICENSE
 =======
