@@ -1,4 +1,3 @@
-var portscanner = require('portscanner');
 var dEventEmitter = require('./deventemitter.js');
 var redis = require('redis');
 
@@ -129,9 +128,6 @@ var a = new AppConsole();
 
 a.commands.push({
   "": function() {},
-  quit: function() {
-    process.exit();
-  },
+  quit: process.exit.bind(process),
   "help": a.showCommandHelp
 });
-
