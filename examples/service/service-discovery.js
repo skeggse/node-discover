@@ -23,7 +23,7 @@ var emitter = new EventEmitter();
 var before = {}, services = {};
 
 d.on('added', function(node) {
-  node = node.advertisement;
+  node = node.info;
   if (_.has(before, node.type)) {
     if (!services[node.type])
       services[node.type] = {};

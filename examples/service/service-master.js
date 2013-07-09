@@ -25,7 +25,7 @@ master.advertise({
 });
 
 master.on('added', function(node) {
-  console.log(node.address, node.advertisement);
+  console.log(node.address, node.info);
 });
 
 // pretend to keep the message queue always running

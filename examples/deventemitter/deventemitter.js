@@ -153,7 +153,7 @@ var dEventEmitter = module.exports = function(options) {
     });
 
     // connect to the master
-    client.connect(node.address, node.advertisement.dnode.port, function(server, conn) {
+    client.connect(node.address, node.info.dnode.port, function(server, conn) {
       var objConnection = {
         client: server,
         connection: conn

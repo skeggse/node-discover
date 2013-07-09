@@ -284,7 +284,7 @@ Node Object
 {
   isMaster: true,
   isMasterEligible: true,
-  advertisement: null,
+  info: null,
   lastSeen: 1317323922551,
   address: '10.0.0.1',
   port: 12345,

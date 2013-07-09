@@ -61,11 +61,11 @@ var ddnode = module.exports = function(options) {
       nodes[node.id] = node;
 
       // if the node is advertising dnode, connect to it.
-      if (node.advertisement.dnode && node.advertisement.dnode.port) {
+      if (node.info.dnode && node.info.dnode.port) {
         var client = dnode(options.clientBlock);
 
         // connect to the server, passing it our block of functions
-        client.connect(node.address, node.advertisement.dnode.port, function(server, conn) {
+        client.connect(node.address, node.info.dnode.port, function(server, conn) {
           servers[server.__id__] = {
             remote: server,
             connection: conn,
