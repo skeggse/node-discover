@@ -243,21 +243,6 @@ var d = new Discover();
 d.stop();
 ```
 
-### eachNode(fn)
-
-For each node execute fn, passing fn the node fn(node)
-
-```js
-var Discover = require('node-discover');
-var d = new Discover();
-
-d.eachNode(function(node) {
-  if (node.advertisement === "i love nodejs") {
-    console.log("nodejs loves this node too");
-  }
-});
-```
-
 Events
 ------
 
