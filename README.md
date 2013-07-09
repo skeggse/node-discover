@@ -15,10 +15,9 @@ So, you have a whole bunch of node processes running but you have no way within 
 Compatibility
 =============
 
-This module uses broadcast and multicast features from node's dgram module. All required features of the dgram module are implemented in the following versions of node
+This module uses broadcast and multicast features from node's dgram module. Additionally, this module depends on changes to the dgram module in 0.10. Therefore, this module is compatible with Node
 
-	- v0.4.x
-	- v0.6.9+
+	- v0.10.0+
 
 Example
 =======
