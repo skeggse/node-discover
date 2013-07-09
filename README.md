@@ -85,6 +85,17 @@ npm install node-discovery
 git clone git://github.com/skeggse/node-discovery.git
 ```
 
+Testing
+=======
+
+Any of the following will run the tests:
+
+```
+node-discover/$ mocha
+node-discover/$ npm test
+node-discover/$ make test
+```
+
 API
 ===
 
