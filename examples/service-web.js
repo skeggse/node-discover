@@ -22,6 +22,10 @@ var redis, rabbit;
 var register, creation;
 var emitter = new EventEmitter();
 
+emitter.on('create', function(r) {
+  console.log('register', r);
+});
+
 discovery.advertise({
   type: 'service.web',
   ready: false
@@ -35,16 +39,16 @@ discovery.service('service.queue', function(service) {
     var done = _.after(2, discovery.fulfill('configure.rabbit'));
     var next = _.after(2, function() {
       creation.bind(exchange, '');
-      creation.subscribe({ack: false, prefetchCount: 0}, emitter.emit.bind(emit, 'create'));
+      creation.subscribe({ack: false, prefetchCount: 0}, emitter.emit.bind(emitter, 'create'));
       done();
     });
     // for incoming data stream
-    var exchange = rabbit.exchange('service-create', {autoDelete: false, type: 'fanout'}, next);
+    var exchange = rabbit.exchange('service-creation', {autoDelete: false, type: 'fanout'}, next);
     creation = rabbit.queue('', {exclusive: true}, next);
     // for outgoing registrations
     register = rabbit.exchange('service-register', {durable: true, confirm: true, autoDelete: false, type: 'fanout'}, done);
   });
-  rabbit.on('error', console.log.bind(console));
+  rabbit.on('error', console.error.bind(console));
 });
 
 discovery.service('service.data.redis', function(service) {
@@ -56,8 +60,9 @@ discovery.service('service.data.redis', function(service) {
 discovery.ready(function() {
   // services discovered and ready
   // listen for http requests
+  console.log('service discovery complete');
   server.listen(app.get('port'), function() {
-    console.log('Web server listening on port ' + app.get('port'));
+    console.log('web server listening on port ' + app.get('port'));
   });
   // now we're ready for connections
   discovery.advertise({
@@ -75,6 +80,7 @@ var server = http.createServer(app);
 
 app.set('port', process.env.PORT || 3000);
 app.disable('x-powered-by');
+app.use(express.bodyParser());
 app.use(express.logger('dev'));
 app.use(app.router);
 
@@ -84,6 +90,7 @@ app.get('/', function(req, res) {
 
 app.post('/register', function(req, res) {
   // TODO: check registration requirements
+  console.log(req.body);
   var data = new Buffer(JSON.stringify(req.body), 'utf8');
   register.publish('', data, {deliveryMode: 1, contentType: 'application/json', contentEncoding: 'utf8'});
   res.send('registration queued');
@@ -93,12 +100,12 @@ var streamHead = path.join(__dirname, 'service-web.html');
 
 var json = function(obj) {
   return JSON.stringify(obj, null, 2)
-    .replace('&', '&amp;')
-    .replace('<', '&lt;')
-    .replace('>', '&gt;')
-    .replace('"', '&quot;')
-    .replace("'", '&#x27;')
-    .replace('/', '&#x2F;');
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/\//g, '&#x2F;');
 };
 
 app.get('/stream', function(req, res) {
@@ -106,10 +113,15 @@ app.get('/stream', function(req, res) {
   var head = fs.createReadStream(streamHead);
   head.on('data', res.write.bind(res));
   head.on('end', function() {
-    emitter.on('create', function(message, headers, deliveryInfo) {
-      res.write(new Buffer('<h2>Register</h2>\n<pre>' + json(message) + '</pre>\n', 'utf-8'));
-    });
+    emitter.on('create', item);
+    setTimeout(function() {
+      emitter.removeListener('create', item);
+      res.end('<script>location.reload()</script>\n</body>\n</html>\n');
+    }, 20000);
   });
+  var item = function(message, headers, deliveryInfo) {
+    res.write(new Buffer('<h2>Registration</h2>\n<pre>' + json(message) + '</pre>\n', 'utf-8'));
+  };
 });
 
 var dberr = {error: 1, errors: [{error: 4, message: 'database error'}]};

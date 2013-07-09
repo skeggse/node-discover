@@ -14,25 +14,22 @@
  */
 
 var discovery = require('./service-discovery');
+var _ = require('underscore');
 var mq = require('amqp');
 
-var config = {
-  input: 'service-register',
-  output: 'service-creation'
-};
-
 discovery.advertise({
-  type: 'service.register',
-  config: config
+  type: 'service.register'
 });
 
 discovery.mandate('service.queue');
 discovery.ready(function(services) {
+  console.log('service discovery complete');
   var rabbit = mq.createConnection(services['service.queue'].config);
   rabbit.on('ready', function() {
     var done = _.after(2, function() {
       register.subscribe({ack: true, prefetchCount: 1}, function(message, headers, deliveryInfo) {
         // TODO: register the user
+        console.log('user registration', message);
         creation.publish('', message, headers);
         // acknowledge
         register.shift();
@@ -42,8 +39,9 @@ discovery.ready(function(services) {
       register.bind(exchange, '');
       done();
     });
-    var creation = rabbit.exchange(config.output, {autoDelete: false, type: 'fanout'}, done);
-    var exchange = rabbit.exchange(config.input, {durable: true, confirm: true, autoDelete: false, type: 'fanout'}, next);
-    var register = rabbit.queue(config.input, {durable: true, autoDelete: false}, next);
+    var creation = rabbit.exchange('service-creation', {autoDelete: false, type: 'fanout'}, done);
+    var exchange = rabbit.exchange('service-register', {durable: true, confirm: true, autoDelete: false, type: 'fanout'}, next);
+    var register = rabbit.queue('service-register', {durable: true, autoDelete: false}, next);
   });
+  rabbit.on('error', console.error.bind(console));
 });

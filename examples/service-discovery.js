@@ -25,19 +25,34 @@ var before = {}, services = {};
 d.on('added', function(node) {
   node = node.advertisement;
   if (_.has(before, node.type)) {
-    if (services[node.type])
-      services[node.type].service = node;
+    if (!services[node.type])
+      services[node.type] = {};
+    services[node.type].service = node;
     exports.fulfill(node.type)();
   }
 });
 
 // entire service discovery or single service dependencies
 var isReady = function(service) {
+  if (service) {
+    if (!services[service])
+      return false;
+    if (!services[service].mandate)
+      return true;
+  }
   var reqs = service ? services[service].mandate : _.keys(before);
   for (var i = 0; i < reqs.length; i++)
     if (before[reqs[i]] === false)
       return false;
   return true;
+};
+
+var getServices = function() {
+  var s = {};
+  _.each(services, function(service, name) {
+    s[name] = service.service;
+  });
+  return s;
 };
 
 // mandate that the specified requirements be fulfilled before ready
@@ -60,10 +75,10 @@ exports.fulfill = function() {
       before[name] = true;
       // run applicable hooks
       for (var service in services)
-        if (~services[service].mandate.indexOf(name) && isReady(service))
+        if (services[service].mandate && ~services[service].mandate.indexOf(name) && isReady(service))
           services[service].fn(services[service].service);
       if (isReady())
-        emitter.emit('ready');
+        emitter.emit('ready', getServices());
     });
   };
 };
@@ -80,4 +95,4 @@ exports.service = function() {
 };
 
 exports.advertise = d.advertise.bind(d);
-exports.ready = emitter.emit.bind(emitter, 'ready');
+exports.ready = emitter.on.bind(emitter, 'ready');
