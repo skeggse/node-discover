@@ -10,13 +10,15 @@
  * See also: service-*.js
  */
 
-var discovery = require('./service-discovery');
+var ServiceDiscovery = require('../..').ServiceDiscovery;
 var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
 var mq = require('amqp');
 var db = require('redis');
 var EventEmitter = require('events').EventEmitter;
+
+var discovery = new ServiceDiscovery();
 
 var redis, rabbit;
 var register, creation;
@@ -27,16 +29,16 @@ emitter.on('create', function(r) {
 });
 
 discovery.advertise({
-  type: 'service.web',
+  name: 'service.web',
   ready: false
 });
 
-discovery.mandate('configure.rabbit');
+discovery.need('service.queue', 'service.data.redis');
 
-discovery.service('service.queue', function(service) {
+discovery.setup('service.queue', function(service, callback) {
   rabbit = mq.createConnection(service.config);
   rabbit.on('ready', function() {
-    var done = _.after(2, discovery.fulfill('configure.rabbit'));
+    var done = _.after(2, callback);
     var next = _.after(2, function() {
       creation.bind(exchange, '');
       creation.subscribe({ack: false, prefetchCount: 0}, emitter.emit.bind(emitter, 'create'));
@@ -49,15 +51,18 @@ discovery.service('service.queue', function(service) {
     register = rabbit.exchange('service-register', {durable: true, confirm: true, autoDelete: false, type: 'fanout'}, done);
   });
   rabbit.on('error', console.error.bind(console));
+  rabbit.on('error', callback);
 });
 
-discovery.service('service.data.redis', function(service) {
+discovery.setup('service.data.redis', function(service, callback) {
   redis = db.createClient(service.config.port, service.config.host);
   if (service.config.auth)
-    redis.auth(service.config.auth, discovery.fulfill('redis'));
+    redis.auth(service.config.auth, callback);
+  else
+    callback();
 });
 
-discovery.ready(function() {
+discovery.on('ready', function(services) {
   // services discovered and ready
   // listen for http requests
   console.log('service discovery complete');
@@ -66,7 +71,7 @@ discovery.ready(function() {
   });
   // now we're ready for connections
   discovery.advertise({
-    type: 'service.web',
+    name: 'service.web',
     port: app.get('port'),
     ready: true
   });

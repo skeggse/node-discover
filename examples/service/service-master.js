@@ -14,18 +14,19 @@
  */
 
 var Discovery = require('../..');
+var ServiceDiscovery = Discovery.ServiceDiscovery;
 
-var master = new Discovery({
+var master = new ServiceDiscovery({
   weight: 2 // guarantees master status
 });
 
 master.advertise({
-  type: 'service.queue',
+  name: 'service.queue',
   config: {url: 'amqp://localhost:5672'}
 });
 
-master.on('added', function(node) {
-  console.log(node.address, node.info);
+master.on('service', function(name, node) {
+  console.log(name, node.address, node.info);
 });
 
 // pretend to keep the message queue always running
@@ -41,7 +42,7 @@ setTimeout(function() {
   };
 
   database({
-    type: 'service.data.redis',
+    name: 'service.data.redis',
     config: {
       host: 'localhost',
       port: 6379

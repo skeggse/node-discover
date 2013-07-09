@@ -13,16 +13,19 @@
  * See also: service-*.js
  */
 
-var discovery = require('./service-discovery');
+var ServiceDiscovery = require('../..').ServiceDiscovery;
 var _ = require('underscore');
 var mq = require('amqp');
 
+var discovery = new ServiceDiscovery();
+
 discovery.advertise({
-  type: 'service.register'
+  name: 'service.register'
 });
 
-discovery.mandate('service.queue');
-discovery.ready(function(services) {
+discovery.need('service.queue');
+
+discovery.on('ready', function(services) {
   console.log('service discovery complete');
   var rabbit = mq.createConnection(services['service.queue'].config);
   rabbit.on('ready', function() {
