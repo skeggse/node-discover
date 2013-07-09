@@ -316,7 +316,6 @@ TODO
 * Unique ID algorithm not terribly robust.
 * Local address assumed to be `127.0.0.1`.
 * Missing node check may not be sufficiently optimized.
-* Verify that multiple discovery instances can communicate within a single process.
 * Address possible security concerns with EventEmitter2 and unconstrained event names.
 
 LICENSE
