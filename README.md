@@ -5,7 +5,7 @@ Automatic and decentralized discovery and monitoring of nodejs instances with bu
 
 Version 0.1.0
 
-Probably has bugs.
+Might have bugs. To ensure the safe performance of this module, why not contribute more [unit tests][]!?
 
 Why?
 ====
@@ -15,14 +15,12 @@ So, you have a whole bunch of node processes running but you have no way within 
 Compatibility
 =============
 
-This module uses broadcast and multicast features from node's dgram module. Additionally, this module depends on changes to the dgram module in 0.10. Therefore, this module is compatible with Node
-
-  - v0.10.0+
+This module uses broadcast and multicast features from node's dgram module. Additionally, this module depends on changes to the dgram module in 0.10. Therefore, this module is compatible with Node `v0.10.0+`.
 
 Example
 =======
 
-Be sure to look in the examples folder, especially at the [distributed event emitter](https://github.com/skeggse/node-discovery/blob/master/examples/deventemitter/deventemitter.js) and [service discovery](https://github.com/skeggse/node-discovery/blob/master/examples/service/).
+Be sure to look in the examples folder, especially at the [distributed event emitter][] and [service discovery][].
 
 ```js
 var Discovery = require('node-discovery');
@@ -379,3 +377,7 @@ LICENSE
 > The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 > THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+[unit tests]: https://github.com/skeggse/node-discovery/blob/master/test/ "Unit Tests"
+[distributed event emitter]: https://github.com/skeggse/node-discovery/blob/master/examples/deventemitter/deventemitter.js "Distributed Event Emitter"
+[service discovery]: https://github.com/skeggse/node-discovery/blob/master/examples/service/ "Service Discovery"
