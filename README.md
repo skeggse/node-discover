@@ -17,7 +17,7 @@ Compatibility
 
 This module uses broadcast and multicast features from node's dgram module. Additionally, this module depends on changes to the dgram module in 0.10. Therefore, this module is compatible with Node
 
-	- v0.10.0+
+  - v0.10.0+
 
 Example
 =======
@@ -30,43 +30,43 @@ var Discover = require('node-discover');
 var d = new Discover();
 
 d.on("promotion", function() {
-	/**
-	 * Launch things this master process should do.
-	 *
-	 * For example:
-	 *	- Monitior your redis servers and handle failover by issuing slaveof
-	 *    commands then notify other node instances to use the new master
-	 *	- Make sure there are a certain number of nodes in the cluster and
-	 *    launch new ones if there are not enough
-	 *	- whatever
-	 */
-	console.log("I was promoted to a master.");
+  /**
+   * Launch things this master process should do.
+   *
+   * For example:
+   *  - Monitior your redis servers and handle failover by issuing slaveof
+   *    commands then notify other node instances to use the new master
+   *  - Make sure there are a certain number of nodes in the cluster and
+   *    launch new ones if there are not enough
+   *  - whatever
+   */
+  console.log("I was promoted to a master.");
 });
 
 d.on("demotion", function() {
-	/**
-	 * End all master specific functions or whatever you might like.
-	 */
-	console.log("I was demoted from being a master.");
+  /**
+   * End all master specific functions or whatever you might like.
+   */
+  console.log("I was demoted from being a master.");
 });
 
 d.on("added", function(obj) {
-	console.log("A new node has been added.");
+  console.log("A new node has been added.");
 });
 
 d.on("removed", function(obj) {
-	console.log("A node has been removed.");
+  console.log("A node has been removed.");
 });
 
 d.on("master", function(obj) {
-	/**
-	 * A new master process has been selected
-	 *
-	 * Things we might want to do:
-	 * 	- Review what the new master is advertising use its services
-	 *	- Kill all connections to the old master
-	 */
-	console.log("A new master is in control");
+  /**
+   * A new master process has been selected
+   *
+   * Things we might want to do:
+   *  - Review what the new master is advertising use its services
+   *  - Kill all connections to the old master
+   */
+  console.log("A new master is in control");
 });
 ```
 
@@ -75,11 +75,11 @@ Installing
 
 ### npm
 
-	npm install node-discover
+  npm install node-discover
 
 ### git
 
-	git clone git://github.com/skeggse/node-discover.git
+  git clone git://github.com/skeggse/node-discover.git
 
 API
 ===
@@ -89,18 +89,18 @@ Constructor
 
 ```js
 new Discover({
-	helloInterval: 1000, // How often to broadcast a hello packet in milliseconds
-	checkInterval: 2000, // How often to to check for missing nodes in milliseconds
-	nodeTimeout: 2000, // Consider a node dead if not seen in this many milliseconds
-	masterTimeout: 2000, // Consider a master node dead if not seen in this many milliseconds
-	address: '0.0.0.0', // Address to bind to
-	port: 12345, // Port on which to bind and communicate with other node-discover processes
-	broadcast: '255.255.255.255', // Broadcast address if using broadcast
-	multicast: null, // Multicast address if using multicast (don't use multicast, use broadcast)
-	mulitcastTTL: 1, // Multicast TTL for when using multicast
-	key: null, // Encryption key if your broadcast packets should be encrypted (null means no encryption)
-	mastersRequired: 1, // The count of master processes that should always be available
-	weight: Math.random() // A number used to determine the preference for a specific process to become master. Higher numbers win.
+  helloInterval: 1000, // How often to broadcast a hello packet in milliseconds
+  checkInterval: 2000, // How often to to check for missing nodes in milliseconds
+  nodeTimeout: 2000, // Consider a node dead if not seen in this many milliseconds
+  masterTimeout: 2000, // Consider a master node dead if not seen in this many milliseconds
+  address: '0.0.0.0', // Address to bind to
+  port: 12345, // Port on which to bind and communicate with other node-discover processes
+  broadcast: '255.255.255.255', // Broadcast address if using broadcast
+  multicast: null, // Multicast address if using multicast (don't use multicast, use broadcast)
+  mulitcastTTL: 1, // Multicast TTL for when using multicast
+  key: null, // Encryption key if your broadcast packets should be encrypted (null means no encryption)
+  mastersRequired: 1, // The count of master processes that should always be available
+  weight: Math.random() // A number used to determine the preference for a specific process to become master. Higher numbers win.
 });
 ```
 
@@ -150,13 +150,13 @@ var d = new Discover();
 
 // pass the channel and the callback function for handling received data from that channel
 var success = d.join("config-updates", function(data) {
-	if (data.redisMaster) {
-		// connect to the new redis master
-	}
+  if (data.redisMaster) {
+    // connect to the new redis master
+  }
 });
 
 if (!success) {
-	// could not join that channel; probably because it is reserved
+  // could not join that channel; probably because it is reserved
 }
 ```
 
@@ -181,7 +181,7 @@ var d = new Discover();
 var success = d.leave("config-updates");
 
 if (!success) {
-	// could leave channel; who cares?
+  // could leave channel; who cares?
 }
 ```
 
@@ -196,7 +196,7 @@ var d = new Discover();
 var success = d.send("config-updates", {redisMaster : "10.0.1.4"});
 
 if (!succes) {
-	// could not send on that channel; probably because it is reserved
+  // could not send on that channel; probably because it is reserved
 }
 ```
 
@@ -210,10 +210,10 @@ var d = new Discover();
 
 // any of these invocations
 d.advertise({
-	localServices : [
-		{type: 'http', port: '9911', description: 'my awesome http server'},
-		{type: 'smtp', port: '25', description: 'smtp server'}
-	]
+  localServices : [
+    {type: 'http', port: '9911', description: 'my awesome http server'},
+    {type: 'smtp', port: '25', description: 'smtp server'}
+  ]
 });
 
 d.advertise("i love nodejs");
@@ -252,9 +252,9 @@ var Discover = require('node-discover');
 var d = new Discover();
 
 d.eachNode(function(node) {
-	if (node.advertisement === "i love nodejs") {
-		console.log("nodejs loves this node too");
-	}
+  if (node.advertisement === "i love nodejs") {
+    console.log("nodejs loves this node too");
+  }
 });
 ```
 
@@ -297,14 +297,14 @@ Node Object
 
 ```js
 {
-	isMaster: true,
-	isMasterEligible: true,
-	advertisement: null,
-	lastSeen: 1317323922551,
-	address: '10.0.0.1',
-	port: 12345,
-	id: '31d39c91d4dfd7cdaa56738de8240bc4',
-	hostName: 'myMachine'
+  isMaster: true,
+  isMasterEligible: true,
+  advertisement: null,
+  lastSeen: 1317323922551,
+  address: '10.0.0.1',
+  port: 12345,
+  id: '31d39c91d4dfd7cdaa56738de8240bc4',
+  hostName: 'myMachine'
 }
 ```
 
