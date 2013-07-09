@@ -2,6 +2,7 @@ var expect = require('expect.js');
 var sinon = require('sinon');
 var rewire = require('rewire');
 var hat = require('hat');
+var _ = require('underscore');
 
 var crypto = require('crypto');
 var EventEmitter = require('eventemitter2').EventEmitter2;
@@ -34,6 +35,10 @@ var sampleObject = function() {
 
 var sampleBuffer = function() {
   return new Buffer(JSON.stringify(sampleObject()), 'utf-8');
+};
+
+var randomString = function(length) {
+  return crypto.randomBytes(Math.ceil(length / 2)).toString('hex').substr(0, length);
 };
 
 describe('Network', function() {
@@ -316,35 +321,60 @@ describe('Network', function() {
     };
 
     var spies = function() {
-      expect(goodSpy.calledOnce).to.be.ok();
       expect(badSpy.called).not.to.be.ok();
+      expect(goodSpy.calledOnce).to.be.ok();
     };
 
-    var basic = function(done) {
+    var setupSpies = function() {
       secondary.on('error', badSpy);
       secondary.on('hello', goodSpy);
       secondary.on('message', badSpy);
-      var obj = {thinking: true};
+    };
+
+    var basic = function(obj, done) {
+      setupSpies();
       primary.send('hello', obj);
-      secondary.socket.on('message', function() {
+      var after = _.once(function() {
         spies();
         expect(goodSpy.args[0][0]).to.eql(obj);
         expect(goodSpy.args[0][1].data).to.eql(obj);
         expect(goodSpy.args[0][2]).to.be.an('object');
         done();
       });
+      secondary.socket.on('message', after);
+      setTimeout(after, 5000);
     };
+
+    this.timeout(6000);
 
     it('should transfer data without encryption', function(done) {
       create();
-      basic(done);
+      basic({thinking: true}, done);
     });
 
     it('should transfer data with encryption', function(done) {
       create({
-        key: crypto.randomBytes(32),
+        key: crypto.randomBytes(32)
       });
-      basic(done);
+      basic({thinking: true}, done);
+    });
+
+    it('should transfer large data bursts without encryption', function(done) {
+      var obj = {};
+      for (var i = 0; i < 5000; i++)
+        obj[randomString(16)] = randomString(16);
+      create();
+      basic(obj, done);
+    });
+
+    it('should transfer large data bursts with encryption', function(done) {
+      var obj = {};
+      for (var i = 0; i < 5000; i++)
+        obj[randomString(16)] = randomString(16);
+      create({
+        key: crypto.randomBytes(32)
+      });
+      basic(obj, done);
     });
   });
 });
