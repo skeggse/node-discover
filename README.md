@@ -75,11 +75,15 @@ Installing
 
 ### npm
 
-  npm install node-discovery
+```
+npm install node-discovery
+```
 
 ### git
 
-  git clone git://github.com/skeggse/node-discovery.git
+```
+git clone git://github.com/skeggse/node-discovery.git
+```
 
 API
 ===
