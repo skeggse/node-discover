@@ -13,7 +13,7 @@
 // service-discovery contains utilities to improve the discovery of services
 // TODO: needs BRUTAL testing
 
-var Discover = require('..');
+var Discover = require('../..');
 var EventEmitter = require('events').EventEmitter;
 var _ = require('underscore');
 

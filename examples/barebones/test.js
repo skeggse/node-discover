@@ -1,4 +1,4 @@
-var Discover = require('../lib/discover.js');
+var Discover = require('../..');
 
 var c = new Discover();
 

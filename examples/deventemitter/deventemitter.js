@@ -39,7 +39,7 @@
  * See other EventEmitter2 methods
  */
 
-var Discover = require('../lib/discover.js');
+var Discover = require('../..');
 var dnode = require('dnode');
 var EventEmitter = require('eventemitter2').EventEmitter2;
 var _ = require('underscore');

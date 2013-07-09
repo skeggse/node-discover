@@ -9,7 +9,7 @@
  * See also: basic.js
  */
 
-var Discover = require("../");
+var Discover = require('../..');
 
 var d = new Discover();
 

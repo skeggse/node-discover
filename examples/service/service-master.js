@@ -13,7 +13,7 @@
  * See also: service-*.js
  */
 
-var Discover = require('..');
+var Discover = require('../..');
 
 var master = new Discover({
   weight: 2 // guarantees master status
