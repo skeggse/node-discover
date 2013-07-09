@@ -22,7 +22,7 @@ This module uses broadcast and multicast features from node's dgram module. Addi
 Example
 =======
 
-Be sure to look in the examples folder, especially at the [distributed event emitter](https://github.com/skeggse/node-discovery/blob/master/examples/deventemitter/deventemitter.js) and [service discovery](https://github.com/skeggse/node-discovery/blob/master/examples/service/)
+Be sure to look in the examples folder, especially at the [distributed event emitter](https://github.com/skeggse/node-discovery/blob/master/examples/deventemitter/deventemitter.js) and [service discovery](https://github.com/skeggse/node-discovery/blob/master/examples/service/).
 
 ```js
 var Discovery = require('node-discovery');
