@@ -357,11 +357,13 @@ TODO
 * Address possible security concerns with EventEmitter2 and unconstrained event names.
 * Add tests for Discovery itself.
 * Improve service discovery node removal handling.
+* Shift paradigm to streams.
 
 ### Questions
 
 * Could the service discovery automatically call setup for one at a time?
 * Should ServiceDiscovery inherit from Discovery? Integrate into Discovery?
+* Is `hat()` secure enough, or should this switch to `crypto.randomBytes()`?
 
 LICENSE
 =======
