@@ -108,14 +108,20 @@ var discovery = new ServiceDiscovery({
   checkInterval: 2000, // How often to to check for missing nodes in milliseconds
   nodeTimeout: 2000, // Consider a node dead if not seen in this many milliseconds
   masterTimeout: 2000, // Consider a master node dead if not seen in this many milliseconds
+  mastersRequired: 1, // The count of master processes that should always be available
+  weight: Math.random(), // A number used to determine the preference for a specific process to become master. Higher numbers win.
+
   address: '0.0.0.0', // Address to bind to
   port: 12345, // Port on which to bind and communicate with other node-discovery processes
   broadcast: '255.255.255.255', // Broadcast address if using broadcast
   multicast: null, // Multicast address if using multicast (don't use multicast, use broadcast)
   mulitcastTTL: 1, // Multicast TTL for when using multicast
+
+  algorithm: 'aes256', // Encryption algorithm for packet broadcasting (must have key to enable)
   key: null, // Encryption key if your broadcast packets should be encrypted (null means no encryption)
-  mastersRequired: 1, // The count of master processes that should always be available
-  weight: Math.random() // A number used to determine the preference for a specific process to become master. Higher numbers win.
+
+  ignore: 'self', // Which packets to ignore: 'self' means ignore packets from this instance, 'process' means ignore packets from this process
+  ignoreDataErrors: true // whether to ignore data errors including parse errors
 });
 ```
 
@@ -131,7 +137,22 @@ Methods
 
 Advertise yourself as a service. The info `object` is mostly arbitrary, but must include a `name` property indicating the name of the service.
 
+```js
+var Discovery = require('node-discovery');
+var d = new Discovery();
 
+// any of these invocations
+d.advertise({
+  localServices : [
+    {type: 'http', port: '9911', description: 'my awesome http server'},
+    {type: 'smtp', port: '25', description: 'smtp server'}
+  ]
+});
+
+d.advertise("i love nodejs");
+
+d.advertise({something: "something"});
+```
 
 Discovery API
 =============
@@ -147,14 +168,20 @@ var discovery = new Discovery({
   checkInterval: 2000, // How often to to check for missing nodes in milliseconds
   nodeTimeout: 2000, // Consider a node dead if not seen in this many milliseconds
   masterTimeout: 2000, // Consider a master node dead if not seen in this many milliseconds
+  mastersRequired: 1, // The count of master processes that should always be available
+  weight: Math.random(), // A number used to determine the preference for a specific process to become master. Higher numbers win.
+
   address: '0.0.0.0', // Address to bind to
   port: 12345, // Port on which to bind and communicate with other node-discovery processes
   broadcast: '255.255.255.255', // Broadcast address if using broadcast
   multicast: null, // Multicast address if using multicast (don't use multicast, use broadcast)
   mulitcastTTL: 1, // Multicast TTL for when using multicast
+
+  algorithm: 'aes256', // Encryption algorithm for packet broadcasting (must have key to enable)
   key: null, // Encryption key if your broadcast packets should be encrypted (null means no encryption)
-  mastersRequired: 1, // The count of master processes that should always be available
-  weight: Math.random() // A number used to determine the preference for a specific process to become master. Higher numbers win.
+
+  ignore: 'self', // Which packets to ignore: 'self' means ignore packets from this instance, 'process' means ignore packets from this process
+  ignoreDataErrors: true // whether to ignore data errors including parse errors
 });
 ```
 
