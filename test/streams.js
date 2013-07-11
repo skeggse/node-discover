@@ -272,8 +272,8 @@ describe('Streams', function() {
       stream.end(new Buffer('5752415000000000000000000000000000000000c73faf9d000000040000002800000000c064b300', 'hex'));
     });
 
-    it('should not error with ignoreBad', function(done) {
-      var stream = new UnwrapStream({ignoreBad: true});
+    it('should not error with ignoreDataErrors', function(done) {
+      var stream = new UnwrapStream({ignoreDataErrors: true});
       stream.on('data', function(data) {
         throw new Error('expected no data');
       });
@@ -285,8 +285,8 @@ describe('Streams', function() {
       stream.end(badHeader);
     });
 
-    it('should work around errors with ignoreBad', function(done) {
-      var stream = new UnwrapStream({ignoreBad: true});
+    it('should work around errors with ignoreDataErrors', function(done) {
+      var stream = new UnwrapStream({ignoreDataErrors: true});
       var count = 0;
       stream.on('data', function(data) {
         var expected = ['c064b300', 'bdc85452'];
@@ -450,7 +450,7 @@ describe('Streams', function() {
 
     it('should handle a lossy connection', function(done) {
       var data = new Array(64);
-      options = {blockTimeout: 1000, ignoreBad: true};
+      options = {blockTimeout: 1000, ignoreDataErrors: true};
       create(new LossyStream());
       var count = 0;
       unwrapper.on('data', function(chunk) {
@@ -490,7 +490,7 @@ describe('Streams', function() {
 
     it('should handle a terrible connection', function(done) {
       var data = new Array(64);
-      options = {blockTimeout: 1000, ignoreBad: true};
+      options = {blockTimeout: 1000, ignoreDataErrors: true};
       create(new MergeStream(), new ReorderStream(), new LossyStream());
       var count = 0;
       unwrapper.on('data', function(chunk) {
