@@ -3,7 +3,7 @@ node-discovery
 
 Automatic and decentralized discovery and monitoring of nodejs instances with built in support for a variable number of master processes, service advertising and channel messaging.
 
-Version 0.1.0
+Version 0.2.0
 
 Might have bugs. To ensure the safe performance of this module, why not contribute more [unit tests][]!?
 
