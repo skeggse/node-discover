@@ -1,7 +1,7 @@
 {
   "name": "node-discovery",
   "description": "Node discovery service with built-in support for automatic single master and capability advertising.",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "author": "Eli Skeggs <skeggse@gmail.com>",
   "contributors": [
     {
@@ -21,7 +21,7 @@
   "dependencies": {
     "eventemitter2": "~0.4.12",
     "underscore": "~1.4.4",
-    "hat": "~0.0.3"
+    "buffer-crc32": "0.2.1"
   },
   "devDependencies": {
     "rewire": "~1.1.3",

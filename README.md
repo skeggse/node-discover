@@ -350,20 +350,19 @@ Node Object
 TODO
 ====
 
-* Large packets are not tested. The current version does not handle recombining split messages.
+* **Fix terrible hack for `rinfo`!**
 * Discovery assumes the broadcast address to be `255.255.255.255`.
 * Local address assumed to be `127.0.0.1`.
 * Missing node check may not be sufficiently optimized.
 * Address possible security concerns with EventEmitter2 and unconstrained event names.
 * Add tests for Discovery itself.
+* More documentation, both inline and API.
 * Improve service discovery node removal handling.
-* Shift paradigm to streams.
 
 ### Questions
 
 * Could the service discovery automatically call setup for one at a time?
 * Should ServiceDiscovery inherit from Discovery? Integrate into Discovery?
-* Is `hat()` secure enough, or should this switch to `crypto.randomBytes()`?
 
 LICENSE
 =======
