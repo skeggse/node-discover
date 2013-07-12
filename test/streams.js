@@ -43,6 +43,7 @@ var bufferIndex = function(arr, buf) {
 };
 
 describe('Streams', function() {
+  // TODO: move this suite elsewhere
   describe('options', function() {
     var sample = function() {
       return {
