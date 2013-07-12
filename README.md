@@ -3,7 +3,7 @@ node-discovery
 
 Automatic and decentralized discovery and monitoring of nodejs instances with built in support for a variable number of master processes, service advertising and channel messaging.
 
-Version 0.2.0
+Version 0.2.1
 
 Might have bugs. To ensure the safe performance of this module, why not contribute more [unit tests][]!?
 
@@ -20,7 +20,16 @@ This module uses broadcast and multicast features from node's dgram module. Addi
 Example
 =======
 
-Be sure to look in the examples folder, especially at the [distributed event emitter][] and [service discovery][].
+Be sure to look in the examples folder, especially at the [service discovery][].
+
+```js
+var 
+```
+
+Low Level
+---------
+
+Be sure to look in the examples folder at the [distributed event emitter][].
 
 ```js
 var Discovery = require('node-discovery').Discovery;

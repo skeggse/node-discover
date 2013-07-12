@@ -1,7 +1,7 @@
 {
   "name": "node-discovery",
   "description": "Node discovery service with built-in support for automatic single master and capability advertising.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Eli Skeggs <skeggse@gmail.com>",
   "contributors": [
     {
