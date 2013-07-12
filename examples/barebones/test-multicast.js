@@ -24,14 +24,14 @@ c.on("demotion", function() {
 
 c.on("added", function(obj) {
   console.log("Node added; here are all the nodes:");
-  for (var i = 0; i < c.nodes.length; i++)
-    console.log(node);
+  for (var id in c.nodes)
+    console.log(c.nodes[id]);
 });
 
 c.on("removed", function(obj) {
   console.log("Node removed; here are all the nodes:");
-  for (var i = 0; i < c.nodes.length; i++)
-    console.log(node);
+  for (var id in c.nodes)
+    console.log(c.nodes[id]);
 });
 
 c.on("master", function(obj) {
