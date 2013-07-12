@@ -12,6 +12,8 @@ Installing
 
 ### npm
 
+Unless you have specific needs, install [`node-discovery` via npm][nd-npm].
+
 ```
 npm install node-discovery
 ```
@@ -418,3 +420,4 @@ LICENSE
 [unit tests]: https://github.com/skeggse/node-discovery/blob/master/test/ "Unit Tests"
 [distributed event emitter]: https://github.com/skeggse/node-discovery/blob/master/examples/deventemitter/deventemitter.js "Distributed Event Emitter"
 [service discovery]: https://github.com/skeggse/node-discovery/blob/master/examples/service/ "Service Discovery"
+[nd-npm]: https://npmjs.org/package/node-discovery "node-discovery on npm"
