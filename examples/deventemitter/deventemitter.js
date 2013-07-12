@@ -39,7 +39,7 @@
  * See other EventEmitter2 methods
  */
 
-var Discovery = require('../..');
+var Discovery = require('../..').Discovery;
 var dnode = require('dnode');
 var EventEmitter = require('eventemitter2').EventEmitter2;
 var _ = require('underscore');

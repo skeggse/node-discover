@@ -1,4 +1,4 @@
-var Discovery = require('../..');
+var Discovery = require('../..').Discovery;
 
 var c = new Discovery({
   multicast: '224.0.2.1',

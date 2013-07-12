@@ -13,7 +13,7 @@
  * See also: service-*.js
  */
 
-var ServiceDiscovery = require('../..').ServiceDiscovery;
+var ServiceDiscovery = require('../..');
 var _ = require('underscore');
 var mq = require('amqp');
 

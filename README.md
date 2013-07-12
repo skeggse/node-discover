@@ -15,7 +15,7 @@ So, you have a whole bunch of node processes running but you have no way within 
 Compatibility
 =============
 
-This module uses broadcast and multicast features from node's dgram module. Additionally, this module depends on changes to the dgram module in 0.10. Therefore, this module is compatible with Node `v0.10.0+`.
+This module uses broadcast and multicast features from node's dgram module. Additionally, this module depends on changes to the dgram module and the new streams api introduced in 0.10. Therefore, this module is compatible with Node `v0.10.0+`.
 
 Example
 =======
@@ -23,7 +23,7 @@ Example
 Be sure to look in the examples folder, especially at the [distributed event emitter][] and [service discovery][].
 
 ```js
-var Discovery = require('node-discovery');
+var Discovery = require('node-discovery').Discovery;
 
 var d = new Discovery();
 
@@ -101,7 +101,7 @@ Constructor
 -----------
 
 ```js
-var ServiceDiscovery = require('node-discovery').ServiceDiscovery;
+var ServiceDiscovery = require('node-discovery');
 
 var discovery = new ServiceDiscovery({
   helloInterval: 1000, // How often to broadcast a hello packet in milliseconds
@@ -138,7 +138,7 @@ Methods
 Advertise yourself as a service. The info `object` is mostly arbitrary, but must include a `name` property indicating the name of the service.
 
 ```js
-var Discovery = require('node-discovery');
+var Discovery = require('node-discovery').Discovery;
 var d = new Discovery();
 
 // any of these invocations
@@ -161,7 +161,7 @@ Constructor
 -----------
 
 ```js
-var Discovery = require('node-discovery');
+var Discovery = require('node-discovery').Discovery;
 
 var discovery = new Discovery({
   helloInterval: 1000, // How often to broadcast a hello packet in milliseconds
@@ -200,7 +200,7 @@ Promote the instance to master.
 This causes the old master to demote.
 
 ```js
-var Discovery = require('node-discovery');
+var Discovery = require('node-discovery').Discovery;
 var d = new Discovery();
 
 d.promote();
@@ -213,7 +213,7 @@ Demote the instance from being a master. Optionally pass true to demote to speci
 This causes another node to become master
 
 ```js
-var Discovery = require('node-discovery');
+var Discovery = require('node-discovery').Discovery;
 var d = new Discovery();
 
 // different usages
@@ -226,7 +226,7 @@ d.demote(true); // this node is no longer eligible to become a master node.
 Join a channel on which to receive messages/objects
 
 ```js
-var Discovery = require('node-discovery');
+var Discovery = require('node-discovery').Discovery;
 var d = new Discovery();
 
 // pass the channel and the callback function for handling received data from that channel
@@ -255,7 +255,7 @@ if (!success) {
 Leave a channel
 
 ```js
-var Discovery = require('node-discovery');
+var Discovery = require('node-discovery').Discovery;
 var d = new Discovery();
 
 // pass the channel which we want to leave
@@ -271,7 +271,7 @@ if (!success) {
 Send a message/object on a specific channel
 
 ```js
-var Discovery = require('node-discovery');
+var Discovery = require('node-discovery').Discovery;
 var d = new Discovery();
 
 var success = d.send("config-updates", {redisMaster : "10.0.1.4"});
@@ -286,7 +286,7 @@ if (!succes) {
 Advertise an object or message with each hello packet; this is completely arbitrary. make this object/message whatever you applies to your application that you want your nodes to know about the other nodes.
 
 ```js
-var Discovery = require('node-discovery');
+var Discovery = require('node-discovery').Discovery;
 var d = new Discovery();
 
 // any of these invocations
@@ -307,7 +307,7 @@ d.advertise({something: "something"});
 Start broadcasting hello packets and checking for missing nodes (start is called automatically in the constructor)
 
 ```js
-var Discovery = require('node-discovery');
+var Discovery = require('node-discovery').Discovery;
 var d = new Discovery();
 
 d.start();
@@ -318,7 +318,7 @@ d.start();
 Stop broadcasting hello packets and checking for missing nodes
 
 ```js
-var Discovery = require('node-discovery');
+var Discovery = require('node-discovery').Discovery;
 var d = new Discovery();
 
 d.stop();

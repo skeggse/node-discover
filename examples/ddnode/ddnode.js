@@ -1,4 +1,4 @@
-var Discovery = require('../..');
+var Discovery = require('../..').Discovery;
 var portfinder = require('portfinder');
 var dnode = require('dnode');
 

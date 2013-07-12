@@ -13,8 +13,8 @@
  * See also: service-*.js
  */
 
-var Discovery = require('../..');
-var ServiceDiscovery = Discovery.ServiceDiscovery;
+var ServiceDiscovery = require('../..');
+var Discovery = ServiceDiscovery.Discovery;
 
 var master = new ServiceDiscovery({
   weight: 2 // guarantees master status

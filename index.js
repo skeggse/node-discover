@@ -1,2 +1,2 @@
-module.exports = require('./lib/discovery');
-module.exports.ServiceDiscovery = require('./lib/service');
+module.exports = require('./lib/service');
+module.exports.Discovery = require('./lib/discovery');
