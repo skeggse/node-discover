@@ -7,6 +7,21 @@ Version 0.2.1
 
 Might have bugs. To ensure the safe performance of this module, why not contribute more [unit tests][]!?
 
+Installing
+==========
+
+### npm
+
+```
+npm install node-discovery
+```
+
+### git
+
+```
+git clone git://github.com/skeggse/node-discovery.git
+```
+
 Why?
 ====
 
@@ -75,21 +90,6 @@ d.on("master", function(obj) {
    */
   console.log("A new master is in control");
 });
-```
-
-Installing
-==========
-
-### npm
-
-```
-npm install node-discovery
-```
-
-### git
-
-```
-git clone git://github.com/skeggse/node-discovery.git
 ```
 
 Testing
