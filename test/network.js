@@ -64,7 +64,6 @@ describe('Network', function() {
 
     var basic = function(obj, done) {
       setupSpies();
-      debugger;
       primary.send('hello', obj);
       secondary.on('hello', function(data, container) {
         expect(badSpy.called).not.to.be.ok();
@@ -102,6 +101,23 @@ describe('Network', function() {
         key: crypto.randomBytes(32)
       });
       basic(obj, done);
+    });
+
+    it('should emit listening', function(done) {
+      var network = new Network();
+      network.on('listening', done);
+    });
+
+    it('should handle the close method', function(done) {
+      var network = new Network({
+        ignore: null
+      });
+      network.on('close', function() {
+        done();
+      });
+      network.on('listening', function() {
+        network.close();
+      });
     });
   });
 });
