@@ -40,7 +40,71 @@ Example
 Be sure to look in the examples folder, especially at the [service discovery][].
 
 ```js
-var 
+var ServiceDiscovery = require('node-discovery').ServiceDiscovery;
+
+var d = new ServiceDiscovery();
+
+// advertise the service
+d.advertise({
+  name: 'service.web',
+  ready: false
+});
+
+// inform ServiceDiscovery which services are necessary to initialize
+d.need('service.database.redis');
+
+// setup also notifies ServiceDiscovery of necessary services
+d.setup('service.database.mongo', function(service, callback) {
+  /**
+   * Initialize the service, in this example by connecting to mongo.
+   */
+});
+
+d.on('ready', function() {
+  /**
+   * ServiceDiscovery has discovered all services needed.
+   *
+   * Things to do:
+   *   Start http server listening on configured port.
+   *   Let the load balancers know we're ready for connections.
+   */
+  d.advertise({
+    name: 'service.web',
+    ready: true
+  });
+});
+
+d.on('promotion', function() {
+  /**
+   * Launch things this master process should do.
+   *
+   * For example:
+   *  - Monitior your redis servers and handle failover by issuing slaveof
+   *    commands then notify other node instances to use the new master
+   *  - Make sure there are a certain number of nodes in the cluster and
+   *    launch new ones if there are not enough
+   *  - whatever
+   */
+  console.log('I was promoted to a master.');
+});
+
+d.on('demotion', function() {
+  /**
+   * End all master specific functions or whatever you might like.
+   */
+  console.log('I was demoted from being a master.');
+});
+
+d.on('master', function(obj) {
+  /**
+   * A new master process has been selected
+   *
+   * Things we might want to do:
+   *  - Review what the new master is advertising use its services
+   *  - Kill all connections to the old master
+   */
+  console.log('A new master is in control');
+});
 ```
 
 Low Level
@@ -53,7 +117,13 @@ var Discovery = require('node-discovery').Discovery;
 
 var d = new Discovery();
 
-d.on("promotion", function() {
+// advertise the process with an object
+d.advertise({
+  details: 'about',
+  this: 'service'
+});
+
+d.on('promotion', function() {
   /**
    * Launch things this master process should do.
    *
@@ -64,25 +134,25 @@ d.on("promotion", function() {
    *    launch new ones if there are not enough
    *  - whatever
    */
-  console.log("I was promoted to a master.");
+  console.log('I was promoted to a master.');
 });
 
-d.on("demotion", function() {
+d.on('demotion', function() {
   /**
    * End all master specific functions or whatever you might like.
    */
-  console.log("I was demoted from being a master.");
+  console.log('I was demoted from being a master.');
 });
 
-d.on("added", function(obj) {
-  console.log("A new node has been added.");
+d.on('added', function(obj) {
+  console.log('A new node has been added.');
 });
 
-d.on("removed", function(obj) {
-  console.log("A node has been removed.");
+d.on('removed', function(obj) {
+  console.log('A node has been removed.');
 });
 
-d.on("master", function(obj) {
+d.on('master', function(obj) {
   /**
    * A new master process has been selected
    *
@@ -90,7 +160,7 @@ d.on("master", function(obj) {
    *  - Review what the new master is advertising use its services
    *  - Kill all connections to the old master
    */
-  console.log("A new master is in control");
+  console.log('A new master is in control');
 });
 ```
 
@@ -100,9 +170,9 @@ Testing
 Any of the following will run the tests:
 
 ```
-node-discover/$ mocha
-node-discover/$ npm test
-node-discover/$ make test
+node-discovery$ mocha
+node-discovery$ npm test
+node-discovery$ make test
 ```
 
 Service Discovery API
@@ -144,25 +214,128 @@ Properties
 Methods
 -------
 
+`ServiceDiscovery` has all the same methods as [`Discovery`](#discovery-api).
+
 ### advertise(info)
 
 Advertise yourself as a service. The info `object` is mostly arbitrary, but must include a `name` property indicating the name of the service.
 
 ```js
-var Discovery = require('node-discovery').Discovery;
-var d = new Discovery();
+var ServiceDiscovery = require('node-discovery');
+var d = new ServiceDiscovery();
 
-// any of these invocations
 d.advertise({
-  localServices : [
-    {type: 'http', port: '9911', description: 'my awesome http server'},
-    {type: 'smtp', port: '25', description: 'smtp server'}
-  ]
+  name: 'service.database.mysql',
+  config: {
+    host: 'localhost',
+    port: 3306,
+    user: 'username',
+    password: 'some_awesome_password',
+    database: 'my_database_name'
+  }
 });
+```
 
-d.advertise("i love nodejs");
+### need(service, service, service...)
 
-d.advertise({something: "something"});
+Requires the specified services to be present before the `ready` event is emitted.
+
+```js
+var ServiceDiscovery = require('node-discovery');
+var d = new ServiceDiscovery();
+
+d.need('service.database.mongo');
+d.need('service.database.redis', 'service.database.mysql');
+```
+
+### setup(service, callback)
+
+Internally calls `need(service)` and ensures the callback will be called upon discovering the specified service. If multiple are discovered, the setup hook will be called for each service. The setup hook will receive the `info` object for the service and a `callback` function to invoke upon successful or unsuccessful service setup.
+
+```js
+var ServiceDiscovery = require('node-discovery');
+var d = new ServiceDiscovery();
+
+var redis;
+
+d.setup('service.database.redis', function(service, callback) {
+  redis = db.createClient(service.config.port, service.config.host);
+  if (service.config.auth)
+    redis.auth(service.config.auth, callback);
+  else
+    callback();
+});
+```
+
+Events
+------
+
+Each event is passed the `Node Object` for which the event is occuring.
+
+### promotion
+
+Triggered when the node has been promoted to a master.
+
+* Could happen by calling the promote() method
+* Could happen by the current master instance being demoted and this instance automatically being promoted
+* Could happen by the current master instance dying and this instance automatically being promoted
+
+### demotion
+
+Triggered when the node is no longer a master.
+
+* Could happen by calling the demote() method
+* Could happen by another node promoting itself to master
+
+### master
+
+Triggered when a new master has been selected.
+
+### ready
+
+Triggered when all services have been discovered. Receives a object with keys as the names of services and values as the arrays of service objects.
+
+`services` argument:
+
+```
+{
+  "service.database.redis": [
+    {
+      "name": "service.database.redis",
+      "config": {
+        "host": "localhost",
+        "port": 6379
+      }
+    },
+    {
+      "name": "service.database.redis",
+      "config": {
+        "host": "192.168.1.42",
+        "port": 6379
+      }
+    }
+  ]
+}
+```
+
+### notready
+
+Triggered when a service no longer has any candidates.
+
+Node Object
+-----------
+
+```js
+{
+  isMaster: true,
+  isMasterEligible: true,
+  info: null,
+  lastSeen: 1317323922551,
+  address: '10.0.0.1',
+  port: 12345,
+  id: '31d39c91d4dfd7cdaa56738de8240bc4',
+  hostName: 'myMachine'
+}
 ```
 
 Discovery API
@@ -241,7 +414,7 @@ var Discovery = require('node-discovery').Discovery;
 var d = new Discovery();
 
 // pass the channel and the callback function for handling received data from that channel
-var success = d.join("config-updates", function(data) {
+var success = d.join('config-updates', function(data) {
   if (data.redisMaster) {
     // connect to the new redis master
   }
@@ -270,7 +443,7 @@ var Discovery = require('node-discovery').Discovery;
 var d = new Discovery();
 
 // pass the channel which we want to leave
-var success = d.leave("config-updates");
+var success = d.leave('config-updates');
 
 if (!success) {
   // could leave channel; who cares?
@@ -285,7 +458,7 @@ Send a message/object on a specific channel
 var Discovery = require('node-discovery').Discovery;
 var d = new Discovery();
 
-var success = d.send("config-updates", {redisMaster : "10.0.1.4"});
+var success = d.send('config-updates', {redisMaster : '10.0.1.4'});
 
 if (!succes) {
   // could not send on that channel; probably because it is reserved
@@ -308,9 +481,9 @@ d.advertise({
   ]
 });
 
-d.advertise("i love nodejs");
+d.advertise('i love nodejs');
 
-d.advertise({something: "something"});
+d.advertise({something: 'something'});
 ```
 
 ### start()
@@ -340,7 +513,6 @@ Events
 
 Each event is passed the `Node Object` for which the event is occuring.
 
-
 ### promotion
 
 Triggered when the node has been promoted to a master.
@@ -368,7 +540,6 @@ Triggered when a new node is not heard from within `nodeTimeout`.
 
 Triggered when a new master has been selected.
 
-
 Node Object
 -----------
 
@@ -389,6 +560,7 @@ TODO
 ====
 
 * **Fix terrible hack for `rinfo`!**
+  * Currently assigning an `_info` property to the data as it flows through the stream...
 * Discovery assumes the broadcast address to be `255.255.255.255`.
 * Local address assumed to be `127.0.0.1`.
 * Missing node check may not be sufficiently optimized.
@@ -396,6 +568,7 @@ TODO
 * Add tests for Discovery itself.
 * More documentation, both inline and API.
 * Improve service discovery node removal handling.
+* Let other services know that this service is going down if stopped.
 
 ### Questions
 
