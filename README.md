@@ -214,7 +214,7 @@ Properties
 Methods
 -------
 
-`ServiceDiscovery` has all the same methods as [`Discovery`](#discovery-api).
+`ServiceDiscovery` has all the same methods as [`Discovery`](#discovery-api) and more.
 
 ### advertise(info)
 
