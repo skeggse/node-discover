@@ -1,6 +1,8 @@
 node-discovery
 ==============
 
+[![Build Status](https://travis-ci.org/skeggse/node-discovery.png)](https://travis-ci.org/skeggse/node-discovery)
+
 Automatic and decentralized discovery and monitoring of nodejs instances with built in support for a variable number of master processes, service advertising and channel messaging.
 
 Version 0.2.1
